@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LeaveResource extends Resource
 {
@@ -64,6 +66,12 @@ class LeaveResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->modifyQueryUsing(function (Builder $query) {
+                if (!Auth::user()->hasRole('super_admin')) {
+                    return $query->where('user_id', Auth::user()->id);
+                }
+                return $query;
+            })
             ->filters([
                 //
             ])

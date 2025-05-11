@@ -8,9 +8,14 @@ use App\Models\LeaveType;
 use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
+use Illuminate\Support\Facades\Auth;
 
 class Statistics extends BaseWidget
 {
+    public static function canView(): bool
+    {
+        return Auth::user()->hasRole('super_admin');
+    }
     protected function getStats(): array
     {
         $employeeCount = User::count();
