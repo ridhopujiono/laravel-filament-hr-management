@@ -13,7 +13,6 @@ class Leave extends Model
         'end_date',
         'reason',
         'leave_type_id',
-        'status',
     ];
 
     public function user(): BelongsTo{

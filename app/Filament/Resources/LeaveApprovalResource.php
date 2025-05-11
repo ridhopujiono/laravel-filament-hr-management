@@ -61,6 +61,7 @@ class LeaveApprovalResource extends Resource
 
                 Actions::make([
                     Action::make('approve_leave')
+                        ->icon('heroicon-o-check')
                         ->action(function (LeaveApproval $record) {
                             $record->update([
                                 'status' => 'approved',
@@ -72,7 +73,22 @@ class LeaveApprovalResource extends Resource
                                 ->success()
                                 ->send();
                         }),
-                    ]),
+                    Action::make('reject_leave')
+                        ->icon('heroicon-o-x-mark')
+                        ->color('danger')
+                        ->action(function (LeaveApproval $record) {
+                            $record->update([
+                                'status' => 'rejected',
+                                'approved_by' => auth()->user()->id,
+                            ]);
+
+                            Notification::make()
+                                ->title('Leave rejected')
+                                ->success()
+                                ->send();
+                        }),
+                ]),
+
             ]);
     }
 
@@ -92,8 +108,8 @@ class LeaveApprovalResource extends Resource
                     ->label('End Date')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status'),
-                Tables\Columns\TextColumn::make('approved_by')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('approvedBy.name')
+                    ->label('Approved / Rejected By')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -109,7 +125,6 @@ class LeaveApprovalResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
