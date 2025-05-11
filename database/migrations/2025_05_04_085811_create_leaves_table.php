@@ -18,7 +18,6 @@ return new class extends Migration
             $table->date('end_date');
             $table->text('reason');
             $table->foreignId('leave_type_id')->constrained('leave_types')->cascadeOnDelete();
-            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

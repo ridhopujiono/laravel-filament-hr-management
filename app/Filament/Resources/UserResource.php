@@ -35,6 +35,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->required()
                     ->password()
+                    ->visibleOn('create')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone')
                     ->label('Phone Number')
@@ -49,6 +50,11 @@ class UserResource extends Resource
                     ->imageEditor(),
                 Forms\Components\Toggle::make('is_active')
                     ->default(true),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->required(),
             ]);
     }
 
@@ -57,6 +63,11 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('photo')->circular(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->badge()
+                    ->label('Roles')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Employee Name')
                     ->searchable()
