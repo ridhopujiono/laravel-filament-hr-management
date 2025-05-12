@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\LeaveResource\Pages;
 use App\Filament\Resources\LeaveResource\RelationManagers;
+use App\Filament\Resources\LeaveResource\Widgets\LeaveStats;
 use App\Models\Leave;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -107,6 +108,13 @@ class LeaveResource extends Resource
             'index' => Pages\ListLeaves::route('/'),
             'create' => Pages\CreateLeave::route('/create'),
             'edit' => Pages\EditLeave::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            LeaveStats::class,
         ];
     }
 }
