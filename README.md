@@ -1,6 +1,6 @@
-# Laravel Filament HR Management
+# Laravel Filament Leave Management System
 
-A Human Resource Management System (HRMS) built using **Laravel 11** and **FilamentPHP**. This application is designed to streamline HR processes such as employee records, leave tracking, and role-based access control with Filament Shield.
+Leave Management System built using **Laravel 11** and **FilamentPHP**. This application is designed for leave management system, and role-based access control with Filament Shield.
 
 ## Features
 
