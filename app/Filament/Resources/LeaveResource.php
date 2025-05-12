@@ -27,7 +27,11 @@ class LeaveResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
-                    ->required(),
+                    ->required()
+                    ->visible(function ($get) {
+                        return Auth::user()->hasRole('super_admin');
+                    }),
+
                 Forms\Components\DatePicker::make('start_date')
                     ->required(),
                 Forms\Components\DatePicker::make('end_date')
@@ -65,6 +69,11 @@ class LeaveResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                // status from leave approval
+                Tables\Columns\TextColumn::make('leaveApproval.status')
+                    ->badge()
+                    ->label('Status')
+                    ->sortable()
             ])
             ->modifyQueryUsing(function (Builder $query) {
                 if (!Auth::user()->hasRole('super_admin')) {
